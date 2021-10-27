@@ -3,6 +3,8 @@
 //
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/imgproc/types_c.h>
+
 namespace util {
 template <class T> void swap(T &a, T &b) {
   T c(a);
