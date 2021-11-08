@@ -14,7 +14,7 @@ void drawRect(cv::Mat image,cv::Rect rect)
 }
 void TEST_DESKEW(){
 
-    cv::Mat image = cv::imread("res/3.png",cv::IMREAD_GRAYSCALE);
+    cv::Mat image = cv::imread("res/1.jpg",cv::IMREAD_GRAYSCALE);
 //    cv::resize(image,image,cv::Size(136*2,36*2));
     cv::Mat deskewed = pr::fastdeskew(image,12);
 //    cv::imwrite("./res/4.png",deskewed);

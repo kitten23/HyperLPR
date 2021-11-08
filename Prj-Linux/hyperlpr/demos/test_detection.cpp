@@ -15,14 +15,14 @@ void drawRect(cv::Mat image,cv::Rect rect)
 
 int main()
 {
-    cv::Mat image = cv::imread("res/test1.jpg");
+    cv::Mat image = cv::imread("res/1.jpg");
     pr::PlateDetection plateDetection("model/cascade.xml");
     std::vector<pr::PlateInfo> plates;
     plateDetection.plateDetectionRough(image,plates);
     for(pr::PlateInfo platex:plates)
     {
         drawRect(image,platex.getPlateRect());
-        cv::imwrite("res/cache/test.png",platex.getPlateImage());
+        cv::imwrite("res/plate_result.jpg",platex.getPlateImage());
         cv::imshow("image",platex.getPlateImage());
         cv::waitKey(0);
     }

@@ -1,7 +1,16 @@
-cmake_minimum_required(VERSION 3.6)
+cmake_minimum_required(VERSION 3.12)
+add_compile_options(-std=c++17)
 project(SwiftPR)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+# options
+option(DEBUG "Debug" OFF)
+
+if(DEBUG)
+  set(CMAKE_BUILD_TYPE Debug)
+else(DEBUG)
+  set(CMAKE_BUILD_TYPE Release)
+endif()
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 find_package(OpenCV REQUIRED)
 
@@ -23,12 +32,12 @@ set(SRC_PIPLINE src/Pipeline.cpp)
 set(SRC_SEGMENTATIONFREE src/SegmentationFreeRecognizer.cpp )
 
 #TEST_DETECTION
-add_executable(TEST_Detection ${SRC_DETECTION} demos/test_detection.cpp)
-target_link_libraries(TEST_Detection ${OpenCV_LIBS})
+add_executable(test_detection ${SRC_DETECTION} demos/test_detection.cpp)
+target_link_libraries(test_detection ${OpenCV_LIBS})
 
 #TEST_FINEMAPPING
-add_executable(TEST_FINEMAPPING ${SRC_FINEMAPPING} demos/test_finemapping.cpp)
-target_link_libraries(TEST_FINEMAPPING ${OpenCV_LIBS})
+add_executable(test_finemapping ${SRC_FINEMAPPING} demos/test_finemapping.cpp)
+target_link_libraries(test_finemapping ${OpenCV_LIBS})
 
 #TEST_DESKEW
 
@@ -53,3 +62,16 @@ target_link_libraries(TEST_SEGMENTATIONFREE ${OpenCV_LIBS})
 
 add_executable(TEST_PIPLINE ${SRC_DETECTION} ${SRC_FINEMAPPING} ${SRC_FASTDESKEW} ${SRC_SEGMENTATION} ${SRC_RECOGNIZE} ${SRC_PIPLINE} ${SRC_SEGMENTATIONFREE} demos/test_pipeline.cpp)
 target_link_libraries(TEST_PIPLINE ${OpenCV_LIBS})
+
+#test
+set(TEST test)
+add_executable(${TEST} demos/test.cpp ${SRC_DETECTION} ${SRC_FINEMAPPING} ${SRC_FASTDESKEW} ${SRC_SEGMENTATION} ${SRC_RECOGNIZE} ${SRC_PIPLINE} ${SRC_SEGMENTATIONFREE})
+target_link_libraries(${TEST} ${OpenCV_LIBS})
+
+#api
+set(SRC_DIR src/)
+set(API hyperlpr)
+list(APPEND API_SRC api.cpp)
+list(TRANSFORM API_SRC PREPEND ${SRC_DIR})
+add_library(${API} SHARED ${API_SRC} ${SRC_DETECTION} ${SRC_FINEMAPPING} ${SRC_FASTDESKEW} ${SRC_SEGMENTATION} ${SRC_RECOGNIZE} ${SRC_PIPLINE} ${SRC_SEGMENTATIONFREE})
+target_link_libraries(${API} ${OpenCV_LIBS})

@@ -23,7 +23,7 @@ void getMaxClass(cv::Mat &probBlob, int *classId, double *classProb)
 void TEST_RECOGNIZATION(){
 //        pr::CNNRecognizer instance("model/CharacterRecognization.prototxt","model/CharacterRecognization.caffemodel");
          Net net  = cv::dnn::readNetFromCaffe("model/CharacterRecognization.prototxt","model/CharacterRecognization.caffemodel");
-    cv::Mat image = cv::imread("res/char1.png",cv::IMREAD_GRAYSCALE);
+    cv::Mat image = cv::imread("res/1.jpg",cv::IMREAD_GRAYSCALE);
     cv::resize(image,image,cv::Size(14,30));
     cv::equalizeHist(image,image);
     cv::Mat inputBlob = cv::dnn::blobFromImage(image, 1/255.0, cv::Size(14,30), false);

@@ -1,6 +1,7 @@
 # Editor
 *~
 *.swp
+.vscode
 
 # Build files
 Prj-Linux/lpr/TEST_*
